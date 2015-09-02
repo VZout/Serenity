@@ -1,0 +1,9 @@
+Binaries
+DerivedDataCache
+Intermediate
+Saved
+Config
+*.sdf
+*.sln
+*.suo
+*.uproject
