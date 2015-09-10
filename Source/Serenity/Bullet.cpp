@@ -10,24 +10,28 @@ ABullet::ABullet()
 	PrimaryActorTick.bCanEverTick = true;
 
 	speed = 200;
-
+	UE_LOG(LogTemp, Warning, TEXT("Constructor"));
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
-
-	OurVisibleComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("OurVisibleComponent"));
-
+	//OurVisibleComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("OurVisibleComponent"));
+	//OurVisibleComponent->AttachTo(RootComponent);
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovement"));
 }
 
 void ABullet::BeginPlay()
 {
 	Super::BeginPlay();
+	UE_LOG(LogTemp, Warning, TEXT("Begin Play"));
 	
 }
 
-void ABullet::Tick( float DeltaTime )
-{
+void ABullet::Tick( float DeltaTime ) {
 	Super::Tick( DeltaTime );
-	ProjectileMovement->Velocity = GetActorForwardVector() * speed;
+	ProjectileMovement->Velocity = temp + (GetActorForwardVector() * speed);
+}
+
+void ABullet::SetVelocity(FVector vel) {
+	temp = vel;
+	UE_LOG(LogTemp, Warning, TEXT("Setting velocity"));
 
 }
 

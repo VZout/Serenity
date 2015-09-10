@@ -2,8 +2,12 @@ Binaries
 DerivedDataCache
 Intermediate
 Saved
+Build
 Config
 *.sdf
 *.sln
 *.suo
 *.uproject
+*.cfg
+*.chm
+*.exe

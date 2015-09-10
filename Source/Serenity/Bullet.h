@@ -12,12 +12,16 @@ public:
 	ABullet();
 	virtual void BeginPlay() override;
 	virtual void Tick( float DeltaSeconds ) override;
+	void SetVelocity(FVector vel);
 
-	UPROPERTY(EditAnywhere)
-	USceneComponent* OurVisibleComponent;
+	//UPROPERTY(EditAnywhere)
+	//USceneComponent* OurVisibleComponent;
 	UPROPERTY(EditAnywhere)
 	UProjectileMovementComponent* ProjectileMovement;
 	UPROPERTY(EditAnywhere)
 	float speed;
+
+	UPROPERTY(EditAnywhere)
+	FVector temp;
 	
 };

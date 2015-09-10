@@ -8,7 +8,7 @@ void ASplashScreenGameMode::BeginPlay() {
 
 	PrimaryActorTick.bCanEverTick = true;
 
-	GetWorldTimerManager().SetTimer(this, &ASplashScreenGameMode::LoadLevel, 9.2f, false);
+	//GetWorldTimerManager().SetTimer(this, &ASplashScreenGameMode::LoadLevel, 9.2f, false);
 
 }
 
@@ -20,7 +20,7 @@ void ASplashScreenGameMode::LoadLevel() {
 	FLatentActionInfo info;
 	UE_LOG(LogTemp, Warning, TEXT("Should load game level"));
 	UGameplayStatics::OpenLevel(this, TEXT("MainMenu"));
-	GetWorldTimerManager().ClearTimer(this, &ASplashScreenGameMode::LoadLevel);
+	//GetWorldTimerManager().ClearTimer(this, &ASplashScreenGameMode::LoadLevel);
 }
 
 

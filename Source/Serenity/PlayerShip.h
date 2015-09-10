@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "Blueprint/UserWidget.h"
 #include "GameFramework/Pawn.h"
 #include "PlayerShip.generated.h"
 
@@ -27,6 +28,12 @@ public:
 	void EnterHyperSpace();
 	void ToggleView();
 	void Fire0();
+	void OpenInventory();
+	void CloseInventory();
+	void ToggleInventory();
+	void OpenQuestLog();
+	void CloseQuestLog();
+	void ToggleQuestLog();
 	FRotator ZeroOutRotator(FRotator Vector, float Target, float AngularDamping);
 
 	FVector CurrentVelocity;
@@ -36,11 +43,15 @@ public:
 	float AngularDamping;
 
 	UPROPERTY(EditAnywhere)
+	USpringArmComponent* SpringArm;
+	UPROPERTY(EditAnywhere)
 	UCameraComponent* OurCamera;
 	UPROPERTY(EditAnywhere)
 	USceneComponent* OurVisibleComponent;
 	UPROPERTY(EditAnywhere)
 	URotatingMovementComponent* RotatingMovement;
+	UPROPERTY(EditAnywhere)
+	UFloatingPawnMovement* floatingMovement;
 	UPROPERTY(EditAnywhere)
 	UParticleSystemComponent* supercruisePS;
 	UPROPERTY(EditAnywhere)
@@ -51,36 +62,46 @@ public:
 	UPROPERTY(EditAnywhere)
 	bool enteringHyperspace;
 
+	bool inventoryIsOpen;
+	bool questlogIsOpen;
+
 	UPROPERTY(EditAnywhere)
 	bool isFirstPerson;
 	UPROPERTY(EditAnywhere)
-	FVector firstPersonCameraPosition;
+	float firstPersonCameraDistance;
 	UPROPERTY(EditAnywhere)
-	FVector thirdPersonCameraPosition;
+	float thirdPersonCameraDistance;
+	UPROPERTY(EditAnywhere)
+	FRotator firstPersonCameraRotation;
+	UPROPERTY(EditAnywhere)
+	FRotator thirdPersonCameraRotation;
 	UPROPERTY(EditAnywhere)
 	float camTransitionSpeed;
 
-	template <typename VictoryObjType>
-	static FORCEINLINE VictoryObjType* SpawnBP(
-		UWorld* TheWorld,
-		UClass* TheBP,
-		const FVector& Loc,
-		const FRotator& Rot,
-		const bool bNoCollisionFail = true,
-		AActor* Owner = NULL,
-		APawn* Instigator = NULL
-		){
-		if (!TheWorld) return NULL;
-		if (!TheBP) return NULL;
-		//~~
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UUserWidget> inventoryWidget;
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UUserWidget> questlogWidget;
 
-		FActorSpawnParameters SpawnInfo;
-		SpawnInfo.bNoCollisionFail = bNoCollisionFail;
-		SpawnInfo.Owner = Owner;
-		SpawnInfo.Instigator = Instigator;
-		SpawnInfo.bDeferConstruction = false;
+	FTimerHandle hyperspaceTimeHandler;
 
-		return TheWorld->SpawnActor<VictoryObjType>(TheBP, Loc, Rot, SpawnInfo);
-	}
+template <typename VictoryObjType>
+static FORCEINLINE VictoryObjType* SpawnBP(
+	UWorld* TheWorld, 
+	UClass* TheBP,
+	const FVector& Loc,
+	const FRotator& Rot,
+	const bool bNoCollisionFail = true,
+	AActor* Owner = NULL,
+	APawn* Instigator = NULL
+){
+	if(!TheWorld) return NULL;
+	if(!TheBP) return NULL;
+	//~~
+ 
+	UE_LOG(LogTemp, Warning, TEXT("Spawning Object"));
+
+	return TheWorld->SpawnActor<VictoryObjType>(TheBP, Loc ,Rot );
+}
 	
 };
