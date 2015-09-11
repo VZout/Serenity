@@ -3,6 +3,7 @@
 #include "Serenity.h"
 #include "PlayerShip.h"
 #include "Pickupable.h"
+#include "SerenityGameMode.h"
 
 
 // Sets default values
@@ -45,5 +46,12 @@ void APickupable::OnOverlap( class AActor* OtherActor,
 		UE_LOG(LogTemp, Warning, TEXT("Pickupable pickuped"));
 		pickedup = true;
 		StaticMesh->UnregisterComponent();
+
+		ASerenityGameMode* gm = (ASerenityGameMode*)GetWorld()->GetAuthGameMode();
+
+		if(gm) {
+			gm->AddMoney(moneyReward);
+				
+		}
 	}
 }

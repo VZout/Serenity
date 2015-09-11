@@ -13,6 +13,9 @@ class SERENITY_API APickupable : public AActor
 public:	
 	bool pickedup;
 
+	UPROPERTY(EditAnywhere)
+	int32 moneyReward;
+
 	// Sets default values for this actor's properties
 	APickupable();
 
