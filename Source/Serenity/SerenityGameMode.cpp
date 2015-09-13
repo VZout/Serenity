@@ -4,6 +4,9 @@
 #include "SerenityGameMode.h"
 
 #include "TextBlock.h"
+#include "PanelWidget.h"
+#include "GridPanel.h"
+#include "GridSlot.h"
 
 void ASerenityGameMode::BeginPlay() {
 	Super::BeginPlay();
@@ -26,19 +29,29 @@ void ASerenityGameMode::ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass
 		CurrentWidget = CreateWidget<UUserWidget>(GetWorld(), NewWidgetClass);
 		if (CurrentWidget != nullptr)
 		{
+			UpdateUI();
 			CurrentWidget->AddToViewport();
 		}
 	}
-	UpdateUI();
 }
 
 void ASerenityGameMode::UpdateUI() {
-	UTextBlock* t = (UTextBlock*)CurrentWidget->GetWidgetFromName(FName(TEXT("MoneyText")));
+	UTextBlock* moneyText = (UTextBlock*)CurrentWidget->GetWidgetFromName(FName(TEXT("MoneyText")));
+	UGridPanel* ssQuestPanel = (UGridPanel*)CurrentWidget->GetWidgetFromName(FName(TEXT("QuestOptainPanel")));
 	
-	if(t) {
+	if(moneyText) {
 		FString moneyString =  "$" + FString::FromInt(money);
-
-		t->SetText(FText::FromString(moneyString));
+		moneyText->SetText(FText::FromString(moneyString));
+	}
+	if (ssQuestPanel) {
+		
+		for (int32 i = 0; i < 2; i++) {
+			UUserWidget* newButton = CreateWidget<UUserWidget>(GetWorld(), ButtonWidget);
+			UGridSlot* slot = ssQuestPanel->AddChildToGrid(newButton);
+			slot->SetRow(i + 1);
+			slot->SetColumn(1);
+			ssQuestPanel->AddChildToGrid(newButton);
+		}
 	}
 
 }

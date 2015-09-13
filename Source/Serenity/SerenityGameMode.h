@@ -29,6 +29,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UMG Game")
 	TSubclassOf<UUserWidget> StartingWidgetClass;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UMG Game")
+	TSubclassOf<UUserWidget> ButtonWidget;
+
 	TArray<Quest> AvailableQuests;
 	TArray<Quest> ActiveQuests;
 	
