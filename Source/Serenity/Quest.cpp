@@ -3,15 +3,18 @@
 #include "Serenity.h"
 #include "Quest.h"
 
-Quest::Quest() {
+FQuest::FQuest() {
 }
 
-Quest::Quest(FString name, FString description, int32 reward, int32 type) {
+FQuest::FQuest(int32 id, FString name, FString description, int32 reward, int32 type, int32 neededProgress) {
 	this->name = name;
 	this->desc = description;
 	this->reward = reward;
 	this->type = type;
+	this->id = id;
+	this->neededProgress = neededProgress;
+	this->progress = 0;
 }
 
-Quest::~Quest() {
+FQuest::~FQuest() {
 }

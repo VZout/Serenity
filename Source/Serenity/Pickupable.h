@@ -14,15 +14,15 @@ public:
 	bool pickedup;
 
 	UPROPERTY(EditAnywhere)
+	int32 cargoType;
+
+	UPROPERTY(EditAnywhere)
 	int32 moneyReward;
 
-	// Sets default values for this actor's properties
 	APickupable();
 
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	
-	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
 	UFUNCTION()

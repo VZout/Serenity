@@ -9,6 +9,8 @@ void ASplashScreenGameMode::BeginPlay() {
 	PrimaryActorTick.bCanEverTick = true;
 
 	//GetWorldTimerManager().SetTimer(this, &ASplashScreenGameMode::LoadLevel, 9.2f, false);
+	FTimerHandle th;
+	GetWorldTimerManager().SetTimer(th, this, &ASplashScreenGameMode::LoadLevel, 9.2f);
 
 }
 

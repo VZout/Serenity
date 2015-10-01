@@ -36,11 +36,20 @@ public:
 	void ToggleQuestLog();
 	FRotator ZeroOutRotator(FRotator Vector, float Target, float AngularDamping);
 
-	FVector CurrentVelocity;
-	FRotator CurrentAngularVelocity;
-
 	UPROPERTY(EditAnywhere)
 	float AngularDamping;
+	UPROPERTY(EditAnywhere)
+	float MaxSpeed;
+	UPROPERTY(EditAnywhere)
+	float SuperCruiseBoostAmount;
+	UPROPERTY(EditAnywhere)
+	float DefaultRotateSpeed;
+	UPROPERTY(EditAnywhere)
+	float SuperCruiseRotateSpeed;
+
+	float CurrentRotateSpeed;
+	FVector CurrentVelocity;
+	FRotator CurrentAngularVelocity;
 
 	UPROPERTY(EditAnywhere)
 	USpringArmComponent* SpringArm;

@@ -20,6 +20,8 @@ APlayerShip::APlayerShip()
 	SpringArm->bEnableCameraLag = true;
 	SpringArm->bEnableCameraRotationLag = true;
 	SpringArm->CameraLagSpeed = 20.0f;
+
+	SuperCruiseBoostAmount = 50;
 	
 	// Create a camera and a visible object
 	OurCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("OurCamera"));
@@ -59,7 +61,9 @@ APlayerShip::APlayerShip()
 void APlayerShip::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	floatingMovement->MaxSpeed = MaxSpeed;
+	CurrentRotateSpeed = DefaultRotateSpeed;
 }
 
 void APlayerShip::Tick( float DeltaTime )
@@ -67,8 +71,6 @@ void APlayerShip::Tick( float DeltaTime )
 	Super::Tick( DeltaTime );
 
 	RotatingMovement->RotationRate = FRotator(CurrentAngularVelocity.Pitch * DeltaTime, CurrentAngularVelocity.Yaw * DeltaTime, CurrentAngularVelocity.Roll * DeltaTime);
-
-	CurrentAngularVelocity = ZeroOutRotator(CurrentAngularVelocity, 0, AngularDamping);
 
 	if (isFirstPerson) {
 		//OurCamera->SetRelativeLocation(firstPersonCameraPosition);
@@ -82,6 +84,8 @@ void APlayerShip::Tick( float DeltaTime )
 		SpringArm->TargetArmLength = thirdPersonCameraDistance;
 		SpringArm->bEnableCameraLag = true;
 	}
+
+	CurrentAngularVelocity = ZeroOutRotator(CurrentAngularVelocity, 0, AngularDamping);
 
 	if (enteringHyperspace) {
 		if (!RotatingMovement->RotationRate.IsNearlyZero(20)) {
@@ -116,26 +120,30 @@ void APlayerShip::Move_XAxis(float axisValue)
 
 void APlayerShip::Yaw(float AxisValue)
 {
-		CurrentAngularVelocity.Yaw += FMath::Clamp(AxisValue, -1.0f, 1.0f) * 100.0f;
+		CurrentAngularVelocity.Yaw += FMath::Clamp(AxisValue, -1.0f, 1.0f) * CurrentRotateSpeed;
 }
 
 void APlayerShip::Pitch(float AxisValue)
 {
-		CurrentAngularVelocity.Pitch += FMath::Clamp(AxisValue, -1.0f, 1.0f) * 100.0f;
+	CurrentAngularVelocity.Pitch += FMath::Clamp(AxisValue, -1.0f, 1.0f) * CurrentRotateSpeed;
 }
 
 void APlayerShip::Roll(float AxisValue)
 {
 	// Move at 100 units per second right or left
-	CurrentAngularVelocity.Roll += FMath::Clamp(AxisValue, -1.0f, 1.0f) * 100.0f;
+	CurrentAngularVelocity.Roll += FMath::Clamp(AxisValue, -1.0f, 1.0f) * CurrentRotateSpeed;
 }
 
 void APlayerShip::EnableSuperCruise() {
 	supercruisePS->ActivateSystem(true);
+	floatingMovement->MaxSpeed = MaxSpeed;
+	CurrentRotateSpeed = SuperCruiseRotateSpeed;
 }
 
 void APlayerShip::DisableSuperCruise() {
 	supercruisePS->DeactivateSystem();
+	floatingMovement->MaxSpeed = MaxSpeed + SuperCruiseBoostAmount;
+	CurrentRotateSpeed = DefaultRotateSpeed;
 }
 
 void APlayerShip::ToggleHyperSpace() {

@@ -21,17 +21,13 @@ ASpaceStation::ASpaceStation()
 }
 
 // Called when the game starts or when spawned
-void ASpaceStation::BeginPlay()
-{
+void ASpaceStation::BeginPlay() {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
-void ASpaceStation::Tick( float DeltaTime )
-{
+void ASpaceStation::Tick( float DeltaTime ) {
 	Super::Tick( DeltaTime );
-	
 }
 
 void ASpaceStation::OnOverlap( class AActor* OtherActor, 
@@ -50,6 +46,15 @@ void ASpaceStation::OnOverlap( class AActor* OtherActor,
 			MyController->bEnableMouseOverEvents = true;
 
 			gm->ChangeMenuWidget(questWidget);
+
+			if (gm->HasActiveQuestByType(99)) {
+				gm->AddProgressToQuest(1, gm->GetActiveQuestByType(99).id);
+			}
+
+			if (gm->HasActiveQuestByType(96) && gm->HasCargo(99, gm->GetActiveQuestByType(96).neededProgress)) {
+				gm->RemoveCargo(99, 0);
+				gm->AddProgressToQuest(100, gm->GetActiveQuestByType(96).id);
+			}
 				
 		} else {
 			UE_LOG(LogTemp, Warning, TEXT("Could not get Current Game Mode"));
@@ -75,7 +80,6 @@ void ASpaceStation::ExitSpaceStation() {
 			MyController->bEnableClickEvents = false;
 			MyController->bEnableMouseOverEvents = false;
 			gm->ChangeMenuWidget(gm->StartingWidgetClass);
-				
 		} else {
 			UE_LOG(LogTemp, Warning, TEXT("(Exit) Could not get Current Game Mode"));
 		}

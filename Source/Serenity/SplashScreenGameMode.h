@@ -20,5 +20,4 @@ class SERENITY_API ASplashScreenGameMode : public AGameMode
 
 	FTimerHandle time_handler;
 	
-	
 };

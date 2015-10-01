@@ -13,6 +13,7 @@ APickupable::APickupable()
 	PrimaryActorTick.bCanEverTick = true;
 
 	pickedup = false;
+	cargoType = 0;
 
 	this->RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
 
@@ -43,7 +44,6 @@ void APickupable::OnOverlap( class AActor* OtherActor,
 							const FHitResult & SweepResult) {
 
 	if(OtherActor->IsA(APlayerShip::StaticClass()) && !pickedup) {
-		UE_LOG(LogTemp, Warning, TEXT("Pickupable pickuped"));
 		pickedup = true;
 		StaticMesh->UnregisterComponent();
 
@@ -51,7 +51,14 @@ void APickupable::OnOverlap( class AActor* OtherActor,
 
 		if(gm) {
 			gm->AddMoney(moneyReward);
-				
+
+			if (gm->HasActiveQuestByType(98) && cargoType == 0) {
+				gm->AddProgressToQuest(1, gm->GetActiveQuestByType(98).id);
+			}	
+			if (cargoType != 0) {
+				gm->AddCargo(cargoType);
+			}
 		}
+
 	}
 }

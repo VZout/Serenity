@@ -14,10 +14,21 @@ public:
 	virtual void Tick( float DeltaSeconds ) override;
 	void SetVelocity(FVector vel);
 
+	UFUNCTION()
+		void OnHit(class AActor* OtherActor,
+	class UPrimitiveComponent* OtherComp,
+		FVector NormalImpulse,
+		const FHitResult& hit
+		);
+
 	//UPROPERTY(EditAnywhere)
 	//USceneComponent* OurVisibleComponent;
 	UPROPERTY(EditAnywhere)
+	UParticleSystem* explosion;
+	UPROPERTY(EditAnywhere)
 	UProjectileMovementComponent* ProjectileMovement;
+	UPROPERTY(EditAnywhere)
+	USphereComponent* Sphere;
 	UPROPERTY(EditAnywhere)
 	float speed;
 

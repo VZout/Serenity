@@ -2,18 +2,34 @@
 
 #pragma once
 
+#include "Object.h"
+#include "Quest.generated.h"
+
 /**
  * 
  */
-class SERENITY_API Quest
+USTRUCT(BlueprintType)
+struct SERENITY_API FQuest
 {
-public:
-	FString name;
-	FString desc;
-	int32 reward;
-	int32 type;
+	GENERATED_USTRUCT_BODY()
 
-	Quest();
-	Quest(FString name, FString description, int32 reward, int32 type);
-	~Quest();
+	FQuest();
+	FQuest(int32 id, FString name, FString description, int32 reward, int32 type, int32 neededProgress);
+	~FQuest();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UMG Game")
+	int32 id;
+	UPROPERTY(EditAnywhere, Category = "UMG Game")
+	FString name;
+	UPROPERTY(EditAnywhere, Category = "UMG Game")
+	FString desc;
+	UPROPERTY(EditAnywhere, Category = "UMG Game")
+	int32 reward;
+	UPROPERTY(EditAnywhere, Category = "UMG Game")
+	int32 type;
+	UPROPERTY(EditAnywhere, Category = "UMG Game")
+	int32 neededProgress;
+	UPROPERTY(EditAnywhere, Category = "UMG Game")
+	int32 progress;
+	
 };
